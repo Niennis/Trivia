@@ -8,3 +8,11 @@ select{
 .checkAnswer{
   margin-right: 2vh;
 }
+
+#welcome, #configuration, .multiple, .boolean{
+  height: 100%;
+}
+
+.next{
+  display: none;
+}

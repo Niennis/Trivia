@@ -11,13 +11,13 @@
   <header>
 
   </header>
-  <section>
+  <section id="welcome">
     <h2>Welcome to...</h2>
     <h1>TRIVIA!!!</h1>
-    <button class="btn" onclick="configTrivia()">START</button>
+    <button class="btn" id="configBtn" onclick="configTrivia()">START</button>
   </section>
   
-  <section id="configuration">
+  <section id="configuration" class="next container">
     <div class="row">
       <div class="col-12">
         <input id="pickNumber" type="number" min="1" max="50" value="10">
@@ -74,10 +74,10 @@
       </div>
     </div>
 
-    <button class="btn" type="button" onclick="setQuestions()">GO!</button>
+    <button class="btn" id="setQuestions" type="button" onclick="setQuestions()">GO!</button>
   </section>
 
-  <section id="questions">
+  <section id="questions" class="container">
     
   </section>
 

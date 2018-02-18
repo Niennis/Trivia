@@ -1,8 +1,21 @@
+let triviaCall;
+let quantity;
+
+$('#configBtn').click(function(){
+  $('#welcome').toggle();
+  $('#configuration').toggle();
+});
+
+$('#setQuestions').click(function(){
+  $('#configuration').toggle();
+})
+
 function configTrivia() {
   let pickNumber = $('#pickNumber').val();
   let pickCategory = $('#pickCategory').val();
   let pickDifficulty = $('#pickDifficulty').val();
   let pickType = $('#pickType').val();
+  quantity = pickNumber;
 
   function setCategory() {
     let category;
@@ -28,25 +41,32 @@ function configTrivia() {
       return type = '&type=' + pickType;
     }
   }
-  let triviaCall = fetch('https://opentdb.com/api.php?amount=' + pickNumber + setCategory() + setDifficulty() + setType())
-  return triviaCall;
+  triviaCall = fetch('https://opentdb.com/api.php?amount=' + pickNumber + setCategory() + setDifficulty() + setType());
+
+  return triviaCall;  
 }
+
+let multipleAnswers;
+let booleanAnswers;
+let correct;
 
 function setQuestions() {
   let multipleOrder;
   let booleanOrder;
-  configTrivia().then(function(response) {
+  triviaCall.then(function(response) {
     return response.json();
   })
   .then(function(data) {
     console.log(data);
+    $('#questions').empty();
+
     data.results.forEach(element => {
       let configurationDiv = $('#configuration');
-      $('#questions').empty();
       if (element.type === 'multiple') {
-
         multipleOrder = [element.correct_answer, element.incorrect_answers[0], element.incorrect_answers[1], element.incorrect_answers[2]];
-        let multipleQuestion= `<div class="container multiple">
+        multipleAnswers = multipleOrder;
+        
+        let multipleQuestion= `<div class=" multiple divQuestion">
         <div class="row">
           <div class="col-10">
             <h5>${element.question}</h5>
@@ -60,17 +80,19 @@ function setQuestions() {
             <p><input type="checkbox" class="checkAnswer"><label>${multipleOrder.splice((parseInt(Math.random() * (1 -0) + 0)),1)}</label></p>
           </div>
         </div>
-        </div>
         <div class="row">
           <div class="col-12">
-            <button class="btn sendAnswer" onclick="sendAnswer()">ENVIAR RESPUESTA</button>
+            <button type="button" class="btn sendAnswer" onclick="jojo()">Next question</button>
+          </div>
         </div>
       </div>`;
+
       $('#questions').append(multipleQuestion);
       
       } else {
         booleanOrder = [element.correct_answer, element.incorrect_answers[0]];
-        let booleanQuestion = `<div class="container boolean">
+        booleanAnswers = booleanOrder;
+        let booleanQuestion = `<div class=" boolean divQuestion">
         <div class="row">
           <div class="col-10">
             <h5>${element.question}</h5>
@@ -84,18 +106,16 @@ function setQuestions() {
         </div>
         <div class="row">
           <div class="col-12">
-            <button class="btn sendAnswer" onclick="sendAnswer()">ENVIAR RESPUESTA</button>
+            <button type="button" class="btn sendAnswer" onclick="jojo()">Next question</button>
           </div>
         </div>
       </div>`;
       $('#questions').append(booleanQuestion);      
       }
     });
-  });
-  // function sendAnswer(answer) {
-  //   if (answer === element.correct_answer) {
-      
-  //   }
-  // }
+  }); 
+}
+function jojo() {
+  $('.divQuestion').first().remove();
 }
 
