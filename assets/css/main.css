@@ -16,3 +16,12 @@ select{
 .next{
   display: none;
 }
+
+input[type="checkbox"]:checked {
+  margin: 0 20px;
+}
+
+body{
+  background-color: turquoise;
+}
+
